@@ -1,5 +1,4 @@
 import type { BlockData } from 'types/blocks';
-import config from '../../config';
 
 // const VersionOverview = ({
 //   cmf_version,
