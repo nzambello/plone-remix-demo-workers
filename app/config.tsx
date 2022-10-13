@@ -1,5 +1,5 @@
 import type { SlateElementData, Settings, BlockConfig } from 'types/blocks';
-import { PLONE_RESTAPI_URL, PUBLIC_URL } from '~/utils/variables.server';
+// import { PLONE_RESTAPI_URL, PUBLIC_URL } from '~/utils/variables.server';
 
 /*
  * Blocks
