@@ -135,13 +135,10 @@ export function getView(url: string): string {
  */
 export function flattenToAppURL(url: string): string {
   const { settings } = config;
-  return (
-    url &&
-    url
-      .replace(settings.internalApiPath, '')
-      .replace(settings.apiPath, '')
-      .replace(settings.publicURL, '')
-  );
+  return url
+    .replace(settings.internalApiPath, '')
+    .replace(settings.apiPath, '')
+    .replace(settings.publicURL, '');
 }
 /**
  * Given a URL it remove the querystring from the URL.

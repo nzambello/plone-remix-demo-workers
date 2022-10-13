@@ -14,6 +14,7 @@ import ImageBlock from './blocks/views/Image';
 import MapsBlock from './blocks/views/Maps';
 import LeadImage from './blocks/views/LeadImage';
 import VideoBlock from './blocks/views/Video';
+import SystemBlock from './blocks/views/System';
 
 const LinkElement = ({
   attributes,
@@ -50,15 +51,22 @@ const LinkElement = ({
 };
 
 const settings: Settings = {
-  siteTitle: 'Plome Remix',
+  siteTitle: 'Plome 6 Remix Demo',
 
-  isMultilingual: true,
-  supportedLanguages: ['en', 'it'],
-  defaultLanguage: 'it',
-  internalApiPath: PLONE_RESTAPI_URL,
-  apiPath: PLONE_RESTAPI_URL,
-  publicURL: PUBLIC_URL,
+  isMultilingual: false,
+  supportedLanguages: ['en'],
+  defaultLanguage: 'en',
+  internalApiPath: 'https://6.demo.plone.org/++api++',
+  apiPath: 'https://6.demo.plone.org',
+  publicURL: 'http://localhost:4000',
   legacyTraverse: false,
+
+  addonsInfo: [
+    {
+      name: '@kitconcept/volto-blocks-grid',
+      version: '5.1.1'
+    }
+  ],
 
   slate: {
     topLevelTargetElements: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
@@ -102,6 +110,7 @@ const settings: Settings = {
       code: ({ children }) => <code>{children}</code>,
 
       blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+      link: LinkElement,
       a: LinkElement
     }
   },
@@ -189,6 +198,11 @@ const blocksConfig: { [type: string]: BlockConfig } = {
     id: 'video',
     title: 'Video',
     view: VideoBlock
+  },
+  system: {
+    id: 'system',
+    title: 'System',
+    view: SystemBlock
   }
   // listing: {
   //   id: 'listing',

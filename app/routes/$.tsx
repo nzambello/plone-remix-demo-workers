@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node';
+import type { MetaFunction, LinksFunction, LoaderArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import type { PloneContent } from 'plone-restapi-client/dist/content';
 import { Link, useLoaderData } from '@remix-run/react';
@@ -10,6 +10,12 @@ import { PLONE_RESTAPI_URL } from '~/utils/variables.server';
 import config from '~/config';
 import * as plone from 'plone-restapi-client';
 import View from '~/views/View';
+import criticalCss from '../styles/critical.css';
+import themeCss from '../styles/theme.css';
+import reachSkipNavCss from '@reach/skip-nav/styles.css';
+import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
+import Breadcrumb from '~/components/Breadcrumb';
+import Footer from '~/components/Footer';
 
 plone.client.init(PLONE_RESTAPI_URL);
 
@@ -26,6 +32,14 @@ export const meta: MetaFunction = ({ data }) => ({
   viewport: 'width=device-width,initial-scale=1'
 });
 
+export const links: LinksFunction = () => [
+  { rel: 'preload', href: criticalCss, as: 'style' },
+  { rel: 'stylesheet', href: criticalCss },
+  { rel: 'preload', href: themeCss, as: 'style' },
+  { rel: 'stylesheet', href: themeCss },
+  { rel: 'stylesheet', href: reachSkipNavCss }
+];
+
 type LoaderData = {
   lang: string;
   content: PloneContent;
@@ -39,7 +53,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     : config.settings.defaultLanguage;
 
   const navReq = await fetch(
-    `${PLONE_RESTAPI_URL}/${lang}/@navigation?expand.navigation.depth=2`,
+    `${PLONE_RESTAPI_URL}/${
+      config.settings.isMultilingual ? `${lang}/` : ''
+    }@navigation?expand.navigation.depth=2`,
     {
       headers: {
         Accept: 'application/json',
@@ -50,7 +66,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const navigation = await navReq.json();
 
   const content = await plone.content.get(
-    `/${params['*']}?expand=translations`
+    `/${params['*']}?expand=translations&expand=breadcrumbs`
   );
 
   if (!content || !!content.message)
@@ -77,6 +93,16 @@ export const loader = async ({ params, request }: LoaderArgs) => {
               '@id': flattenToAppURL(i['@id'])
             })) || [])
           ]
+        },
+        breadcrumbs: {
+          ...(content['@components']?.['breadcrumbs'] || {}),
+          items: [
+            // @ts-ignore
+            ...(content['@components']?.['breadcrumbs']?.items?.map((i) => ({
+              ...i,
+              '@id': flattenToAppURL(i['@id'])
+            })) || [])
+          ]
         }
       }
     },
@@ -93,7 +119,8 @@ export default function ContentPage() {
 
   return (
     <>
-      <header>
+      <SkipNavLink href="#content" />
+      <header className="container">
         <Link
           to={
             config.settings.isMultilingual
@@ -101,7 +128,10 @@ export default function ContentPage() {
               : ''
           }
         >
-          <img alt="logo" src="" />
+          <img
+            alt="logo"
+            src="https://6.demo.plone.org/static/media/Logo.16e25cdf.svg"
+          />
         </Link>
         <Navigation items={navigation} />
         <LanguageSelector
@@ -109,9 +139,12 @@ export default function ContentPage() {
           translations={content['@components'].translations?.items}
         />
       </header>
-      <main>
+      <Breadcrumb items={content['@components'].breadcrumbs?.items} />
+      <main className="container">
+        <SkipNavContent id="content" />
         <View content={content} />
       </main>
+      <Footer />
     </>
   );
 }
