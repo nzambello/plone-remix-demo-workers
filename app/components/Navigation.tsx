@@ -9,9 +9,11 @@ const Navigation = ({ items }: { items: PloneContent[] }) => {
     <nav>
       <button className="mobile-menu-open">Menu</button>
       <ul id="navigation">
-        <a href="#main" className="mobile-menu-close" title="Close">
-          &times;
-        </a>
+        <li>
+          <a href="#main" className="mobile-menu-close" title="Close">
+            &times;
+          </a>
+        </li>
         {items.map((item) => (
           <li
             key={item['@id']}
