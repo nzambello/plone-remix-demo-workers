@@ -37,6 +37,8 @@ export let handle = {
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: config.settings.siteTitle,
+  description:
+    'This site is a demonstration of Plone 6 with Plone-Remix for its frontend.',
   viewport: 'width=device-width,initial-scale=1'
 });
 

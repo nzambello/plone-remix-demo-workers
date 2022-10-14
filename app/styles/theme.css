@@ -10,12 +10,13 @@ body {
     width: 100%;
     max-width: 1127px;
     margin: 0 auto;
+    padding: 0 15px;
 }
 
-header {
+header.container {
     display: flex;
     align-items: center;
-    padding: 1.5em 0;
+    padding: 1.5em 15px;
 }
 
 header nav {
@@ -30,6 +31,21 @@ header nav ul {
     display: flex;
     align-items: center;
     font-size: 1.07142857rem;
+}
+
+header nav .mobile-menu-open {
+    display: none;
+    background: none;
+    border: 1px solid #007eb1;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    line-height: 1;
+    color: #007eb1;
+    cursor: pointer;
+}
+
+header nav .mobile-menu-close {
+    font-size: 2.5rem;
 }
 
 header nav ul li a {
@@ -51,6 +67,49 @@ header nav ul li a:focus {
     border-bottom-color: #c7d5d8;
 }
 
+@media (max-width: 768px) {
+    header nav .mobile-menu-open {
+        display: inline-block;
+    }
+
+    header nav {
+        text-align: right;
+    }
+
+    header nav ul {
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 0;
+        overflow: hidden;
+        background: #fff;
+        flex-direction: column;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 0;
+        transition: all 0.3s ease;
+    }
+
+    header nav .mobile-menu-open:focus+ul,
+    header nav ul:focus {
+        max-width: 100%;
+        padding: 3rem 1rem;
+    }
+
+    header nav ul li {
+        margin-top: 1.5rem;
+    }
+
+    header nav ul li a {
+        padding: 0.5em 0;
+        margin: 0;
+        border-bottom: 0;
+    }
+}
+
+
 nav.breadcrumb {
     font-size: 0.85714286rem;
     background: #edf1f2;
@@ -61,7 +120,6 @@ nav.breadcrumb {
 
 nav.breadcrumb ol {
     list-style: none;
-    padding: 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -77,6 +135,10 @@ nav.breadcrumb ol li+li::before {
     display: inline-block;
     color: #517776;
     opacity: .7;
+}
+
+nav.breadcrumb ol li a {
+    color: #0074a3;
 }
 
 main.container {
@@ -114,4 +176,10 @@ footer ul.link-list {
 
 footer ul.link-list li+li {
     margin-left: 1em;
+}
+
+@media (max-width: 600px) {
+    footer ul.link-list {
+        flex-direction: column;
+    }
 }
