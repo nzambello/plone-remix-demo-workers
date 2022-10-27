@@ -1,5 +1,9 @@
-import type { MetaFunction, LoaderArgs, LinksFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import type {
+  MetaFunction,
+  LoaderArgs,
+  LinksFunction
+} from '@remix-run/cloudflare';
+import { json, redirect } from '@remix-run/cloudflare';
 import type { PloneContent } from 'plone-restapi-client/dist/content';
 import { Link, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
