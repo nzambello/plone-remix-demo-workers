@@ -14,13 +14,15 @@ npx create-remix --template raw-material/plone-remix
 
 ## What's in the stack
 
+### Deploy
+
+Deploys to [Cloudflare Pages](https://pages.cloudflare.com/).
+
+Online demo: [plone-remix-demo.pages.dev](https://plone-remix-demo.pages.dev/).
+
 ### i18n
 
 - [remix-i18next](https://github.com/sergiodxa/remix-i18next)
-
-### Plone REST API TypeScript Client
-
-- [plone-restapi-client](https://github.com/collective/plone-restapi-client)
 
 ### Linting and formatting
 
