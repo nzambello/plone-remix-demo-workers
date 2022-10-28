@@ -14,8 +14,6 @@ import config from '~/config';
 import View from '~/views/View';
 import criticalCss from '../styles/critical.css';
 import themeCss from '../styles/theme.css';
-import reachSkipNavCss from '@reach/skip-nav/styles.css';
-import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
 
@@ -36,8 +34,7 @@ export const links: LinksFunction = () => [
   { rel: 'preload', href: criticalCss, as: 'style' },
   { rel: 'stylesheet', href: criticalCss },
   { rel: 'preload', href: themeCss, as: 'style' },
-  { rel: 'stylesheet', href: themeCss },
-  { rel: 'stylesheet', href: reachSkipNavCss }
+  { rel: 'stylesheet', href: themeCss }
 ];
 
 type LoaderData = {
@@ -131,7 +128,10 @@ export function Content({
 }: LoaderData & { children?: React.ReactNode }) {
   return (
     <>
-      <SkipNavLink href="#content" />
+      <nav className="skip-links">
+        <a href="#content">Skip to content</a>
+        <a href="#navigation">Skip to navigation</a>
+      </nav>
       <header className="container">
         <Link
           to={
@@ -157,7 +157,7 @@ export function Content({
         <Breadcrumb items={content?.['@components'].breadcrumbs?.items} />
       )}
       <main className="container">
-        <SkipNavContent id="content" />
+        <a id="content" />
         {children}
       </main>
       <Footer />

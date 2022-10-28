@@ -6,6 +6,43 @@ body {
     font-size: 14px;
 }
 
+.sr-only {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border-width: 0;
+    margin: -1px;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+nav.skip-links a {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border-width: 0;
+    margin: -1px;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+nav.skip-links a:focus {
+    width: auto;
+    height: auto;
+    margin: 0;
+    clip: initial;
+    white-space: initial;
+    padding: 5px 10px;
+    background: #fff;
+    border: 2px solid;
+    z-index: 9999;
+    text-decoration: underline;
+}
+
 .container {
     width: 100%;
     max-width: 1127px;
