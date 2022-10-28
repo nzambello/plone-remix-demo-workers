@@ -14,7 +14,6 @@ import config from '~/config';
 import View from '~/views/View';
 import criticalCss from '../styles/critical.css';
 import themeCss from '../styles/theme.css';
-import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
 
@@ -157,8 +156,7 @@ function RootContent({
       {content && (
         <Breadcrumb items={content?.['@components'].breadcrumbs?.items} />
       )}
-      <main className="container">
-        <a id="content" />
+      <main className="container" id="content">
         {children}
       </main>
       <Footer />

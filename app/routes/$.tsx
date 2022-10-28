@@ -156,8 +156,7 @@ export function Content({
       {content && (
         <Breadcrumb items={content?.['@components'].breadcrumbs?.items} />
       )}
-      <main className="container">
-        <a id="content" />
+      <main className="container" id="content">
         {children}
       </main>
       <Footer />
