@@ -48,6 +48,4 @@ const VideoBlockView = ({
   }
 };
 
-VideoBlockView.displayBame = 'VideoBlock';
-
 export default VideoBlockView;

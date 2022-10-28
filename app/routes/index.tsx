@@ -4,15 +4,13 @@ import type {
   LinksFunction
 } from '@remix-run/cloudflare';
 import { json, redirect } from '@remix-run/cloudflare';
-import type { PloneContent } from 'plone-restapi-client/dist/content';
+import type { PloneContent, PloneResponse } from 'types';
 import { Link, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import LanguageSelector from '~/components/LanguageSelector';
 import Navigation from '~/components/Navigation';
 import { flattenToAppURL } from '~/utils/urls';
-import { PLONE_RESTAPI_URL } from '~/utils/variables.server';
 import config from '~/config';
-import * as plone from 'plone-restapi-client';
 import View from '~/views/View';
 import criticalCss from '../styles/critical.css';
 import themeCss from '../styles/theme.css';
@@ -20,8 +18,6 @@ import reachSkipNavCss from '@reach/skip-nav/styles.css';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
-
-plone.client.init(PLONE_RESTAPI_URL);
 
 invariant(
   config.settings.defaultLanguage,
@@ -46,11 +42,12 @@ export const links: LinksFunction = () => [
 
 type LoaderData = {
   lang?: string;
-  content: PloneContent;
-  navigation: PloneContent[]; // PloneContent['@components']['navigation']['items'][]
+  content?: PloneContent;
+  navigation?: PloneContent[];
 };
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params, request, context }: LoaderArgs) => {
+  const PLONE_RESTAPI_URL = context.env.PLONE_RESTAPI_URL;
   if (config.settings.isMultilingual) {
     const DEFAULT_LANG = config.settings.defaultLanguage;
     return redirect(`/${DEFAULT_LANG}`);
@@ -74,9 +71,16 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   );
   const navigation = await navReq.json();
 
-  const content = await plone.content.get(
-    `/?expand=translations&expand=breadcrumbs`
+  const contentReq = await fetch(
+    `${PLONE_RESTAPI_URL}/?expand=translations&expand=breadcrumbs`,
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
   );
+  const content = (await contentReq.json()) as PloneContent & PloneResponse;
 
   if (!content || !!content.message)
     throw new Response('Not Found', { status: 404 });
@@ -111,6 +115,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       }
     },
     navigation:
+      // @ts-ignore
       navigation?.items?.map((i: PloneContent) => ({
         ...i,
         '@id': flattenToAppURL(i['@id'])
@@ -118,9 +123,12 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   });
 };
 
-export default function RootContentPage() {
-  const { navigation, lang, content } = useLoaderData() as LoaderData;
-
+function RootContent({
+  navigation,
+  lang,
+  content,
+  children
+}: LoaderData & { children?: React.ReactNode }) {
   return (
     <>
       <SkipNavLink href="#content" />
@@ -137,18 +145,50 @@ export default function RootContentPage() {
             src="https://6.demo.plone.org/static/media/Logo.16e25cdf.svg"
           />
         </Link>
-        <Navigation items={navigation} />
-        <LanguageSelector
-          currentLang={lang}
-          translations={content['@components'].translations?.items}
-        />
+        <Navigation items={navigation ?? []} />
+        {content && (
+          <LanguageSelector
+            currentLang={lang}
+            translations={content?.['@components'].translations?.items}
+          />
+        )}
       </header>
-      <Breadcrumb items={content['@components'].breadcrumbs?.items} />
+      {content && (
+        <Breadcrumb items={content?.['@components'].breadcrumbs?.items} />
+      )}
       <main className="container">
         <SkipNavContent id="content" />
-        <View content={content} />
+        {children}
       </main>
       <Footer />
     </>
+  );
+}
+
+export function CatchBoundary() {
+  return (
+    <RootContent>
+      <h2>We couldn't find that page!</h2>
+    </RootContent>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  if (process.env.NODE_ENV === 'development') console.error(error);
+  return (
+    <RootContent>
+      <p>Unexpected error</p>
+    </RootContent>
+  );
+}
+
+export default function RootContentPage() {
+  const { navigation, lang, content } = useLoaderData() as LoaderData;
+
+  return (
+    <RootContent navigation={navigation} lang={lang} content={content}>
+      {/* @ts-ignore */}
+      <View content={content} />
+    </RootContent>
   );
 }

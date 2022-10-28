@@ -1,5 +1,4 @@
-import type { PloneContent } from 'plone-restapi-client/dist/content';
-
+import type { PloneContent } from 'types';
 export interface BlockData<T = any> {
   id: string;
   data?: T;
@@ -14,7 +13,7 @@ export interface BlockData<T = any> {
 export type BlockConfig = {
   id: string;
   title: string;
-  view: React.ReactNode;
+  view: React.ReactNode | JSX.Element | React.FC<BlockData>;
   variations?: BlockConfig[];
   getAsyncData?: () => {};
 };
@@ -48,22 +47,4 @@ export type SlateElementData = {
       email_subject?: string;
     };
   };
-};
-
-export type Settings = {
-  siteTitle: string;
-  isMultilingual: boolean;
-  supportedLanguages: string[];
-  defaultLanguage: string;
-  internalApiPath: string;
-  apiPath: string;
-  publicURL: string;
-  legacyTraverse: boolean;
-  slate: {
-    elements: SlateElement;
-    topLevelTargetElements: string[];
-    [key: string]: any;
-  };
-  nonContentRoutes: (string | RegExp)[];
-  [key: string]: any;
 };

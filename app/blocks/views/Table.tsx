@@ -113,6 +113,4 @@ const TableBlockView = ({
   );
 };
 
-TableBlockView.displayName = 'TableBlock';
-
 export default TableBlockView;

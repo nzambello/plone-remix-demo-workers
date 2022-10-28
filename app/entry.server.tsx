@@ -1,12 +1,11 @@
 import { RemixServer } from '@remix-run/react';
 import type { EntryContext } from '@remix-run/cloudflare';
 import { createInstance } from 'i18next';
-import Backend from 'i18next-fs-backend';
-import { resolve } from 'node:path';
 import { renderToString } from 'react-dom/server';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-import i18next from './i18next.server';
-import i18n from './i18n';
+import { I18nextProvider } from 'react-i18next';
+import { i18n } from '~/utils/i18n.server';
+import en from '~/locales/en';
+import it from '~/locales/it';
 
 export default async function handleRequest(
   request: Request,
@@ -19,21 +18,18 @@ export default async function handleRequest(
   let instance = createInstance();
 
   // Then we could detect locale from the request
-  let lng = await i18next.getLocale(request);
+  let lng = await i18n.getLocale(request);
   // And here we detect what namespaces the routes about to render want to use
-  let ns = i18next.getRouteNamespaces(context);
+  let ns = i18n.getRouteNamespaces(context);
 
-  await instance
-    .use(initReactI18next) // Tell our instance to use react-i18next
-    .use(Backend) // Setup our backend
-    .init({
-      ...i18n, // spread the configuration
-      lng, // The locale we detected above
-      ns, // The namespaces the routes about to render wants to use
-      backend: {
-        loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json')
-      }
-    });
+  await instance.init({
+    supportedLngs: ['it', 'en'],
+    fallbackLng: 'en',
+    react: { useSuspense: false },
+    lng,
+    ns,
+    resources: { en: { translation: en }, it: { translation: it } }
+  });
 
   // Then you can render your app wrapped in the I18nextProvider as in the
   // entry.client file

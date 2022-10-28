@@ -12,6 +12,4 @@ const HTMLBlockView = ({ content }: BlockData) => (
   />
 );
 
-HTMLBlockView.displayName = 'HTMLBlock';
-
 export default HTMLBlockView;

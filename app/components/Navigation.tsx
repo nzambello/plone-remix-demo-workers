@@ -1,4 +1,4 @@
-import type { PloneContent } from 'plone-restapi-client/dist/content';
+import type { PloneContent } from 'types';
 import { Link, useParams } from '@remix-run/react';
 import { flattenToAppURL } from '~/utils/urls';
 

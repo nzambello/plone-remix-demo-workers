@@ -53,6 +53,4 @@ const LeadImageView = ({
   </p>
 );
 
-LeadImageView.displayName = 'LeadImage';
-
 export default LeadImageView;

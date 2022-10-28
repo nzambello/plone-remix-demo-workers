@@ -1,5 +1,4 @@
-import type { BlockData } from 'types/blocks';
-import type { PloneContent } from 'plone-restapi-client/dist/content';
+import type { BlockData, PloneContent } from 'types';
 import cx from 'classnames';
 import { isInternalURL, flattenToAppURL } from '../../utils/urls';
 import config from '~/config';
@@ -86,7 +85,5 @@ export const ImageBlockView = ({
     </p>
   );
 };
-
-ImageBlockView.displayName = 'ImageBlock';
 
 export default ImageBlockView;

@@ -1,5 +1,4 @@
-import type { PloneContent } from 'plone-restapi-client/dist/content';
-import type { BlockData } from 'types/blocks';
+import type { BlockData, PloneContent } from 'types';
 import { hasBlocksData } from './helpers';
 import config from '../config';
 

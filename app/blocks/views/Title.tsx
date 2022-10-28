@@ -13,6 +13,4 @@ const TitleBlockView = ({ properties, metadata }: BlockData) => {
   );
 };
 
-TitleBlockView.displayName = 'TitleBlock';
-
 export default TitleBlockView;

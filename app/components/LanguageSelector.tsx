@@ -1,4 +1,4 @@
-import type { PloneContent } from 'plone-restapi-client/dist/content';
+import type { PloneContent } from 'types';
 import { Link, useLoaderData } from '@remix-run/react';
 import { flattenToAppURL } from '../utils/urls';
 import cx from 'classnames';
@@ -20,8 +20,8 @@ const LanguageSelector = ({
   translations,
   onClickAction
 }: Props) => {
-  const { content } = useLoaderData<{
-    content: PloneContent;
+  const data = useLoaderData<{
+    content?: PloneContent;
   }>();
   const { settings } = config;
   const { i18n } = useTranslation();
@@ -32,7 +32,10 @@ const LanguageSelector = ({
         let translation = translations
           ? // if we have translations, we use them as target to change language
             // we also add content to match current content in current language
-            [...(translations || []), content]?.find((t) => t.language === lang)
+            [
+              ...(translations || []),
+              ...(data?.content ? [data.content] : [])
+            ]?.find((t) => t.language === lang)
           : null;
         return (
           <Link
@@ -40,8 +43,8 @@ const LanguageSelector = ({
             to={
               translation
                 ? flattenToAppURL(translation['@id'])
-                : lang === content?.language?.token
-                ? content['@id']
+                : lang === data?.content?.language?.token
+                ? data?.content?.['@id']
                 : `/${lang}`
             }
             title={langmap[lang].nativeName}

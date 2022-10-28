@@ -1,5 +1,4 @@
-import type { SlateElementData, Settings, BlockConfig } from 'types/blocks';
-// import { PLONE_RESTAPI_URL, PUBLIC_URL } from '~/utils/variables.server';
+import type { SlateElementData, Settings, BlockConfig } from 'types';
 
 /*
  * Blocks
@@ -52,6 +51,8 @@ const LinkElement = ({
 
 const settings: Settings = {
   siteTitle: 'Plome 6 Remix Demo',
+  description:
+    'This site is a demonstration of Plone 6 with Plone-Remix for its frontend.',
 
   isMultilingual: false,
   supportedLanguages: ['en'],

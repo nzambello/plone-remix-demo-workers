@@ -10,6 +10,4 @@ const TextBlockView = (props: BlockData) => {
   ) : null;
 };
 
-TextBlockView.displayName = 'SlateTextBlock';
-
 export default TextBlockView;

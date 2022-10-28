@@ -13,6 +13,4 @@ const DescriptionBlockView = ({ properties, metadata }: BlockData) => {
   );
 };
 
-DescriptionBlockView.displayName = 'DescriptionBlock';
-
 export default DescriptionBlockView;

@@ -40,6 +40,4 @@ const MapsBlockView = ({
   </div>
 );
 
-MapsBlockView.displayName = 'MapsBlock';
-
 export default MapsBlockView;
