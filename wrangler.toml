@@ -1,4 +1,4 @@
-name = "plone-remix-demo-workers"
+name = "plone-remix-demo"
 
 workers_dev = true
 main = "./build/index.js"
@@ -22,5 +22,5 @@ PLONE_RESTAPI_URL = "https://6.demo.plone.org/++api++"
 [env.production]
 name = "plone-remix-demo-workers-prod"
 [env.production.vars]
-PUBLIC_URL = "https://plone-remix-demo-workers.workers.dev"
+PUBLIC_URL = "https://plone-remix-demo.rawmaterial.workers.dev"
 PLONE_RESTAPI_URL = "https://6.demo.plone.org/++api++"
