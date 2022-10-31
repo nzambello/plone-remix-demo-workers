@@ -1,0 +1,26 @@
+name = "plone-remix-demo-workers"
+
+workers_dev = true
+main = "./build/index.js"
+# https://developers.cloudflare.com/workers/platform/compatibility-dates
+compatibility_date = "2022-04-05"
+
+[site]
+  bucket = "./public"
+
+[build]
+  command = "npm run build"
+
+# Define top-level environment variables
+# under the `[vars]` block using
+# the `key = "value"` format
+[vars]
+PUBLIC_URL = "http://localhost:4000"
+PLONE_RESTAPI_URL = "https://6.demo.plone.org/++api++"
+
+# Override values for `--env production` usage
+[env.production]
+name = "plone-remix-demo-workers-prod"
+[env.production.vars]
+PUBLIC_URL = "https://plone-remix-demo-workers.workers.dev"
+PLONE_RESTAPI_URL = "https://6.demo.plone.org/++api++"

@@ -110,7 +110,7 @@ function Document({
       <body>
         {children}
         <ScrollRestoration />
-        {shouldHydrate && <Scripts />}
+        <Scripts />
         <LiveReload />
       </body>
     </html>

@@ -16,9 +16,9 @@ npx create-remix --template raw-material/plone-remix
 
 ### Deploy
 
-Deploys to [Cloudflare Pages](https://pages.cloudflare.com/).
+Deploys to [Cloudflare Workers](https://workers.cloudflare.com/).
 
-Online demo: [plone-remix-demo.pages.dev](https://plone-remix-demo.pages.dev/).
+Online demo: [plone-remix-demo.rawmaterial.workers.dev](https://plone-remix-demo.rawmaterial.workers.dev/).
 
 ### i18n
 

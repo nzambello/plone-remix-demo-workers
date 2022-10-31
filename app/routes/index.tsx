@@ -44,7 +44,6 @@ type LoaderData = {
 };
 
 export const loader = async ({ params, request, context }: LoaderArgs) => {
-  const PLONE_RESTAPI_URL = context.env.PLONE_RESTAPI_URL;
   if (config.settings.isMultilingual) {
     const DEFAULT_LANG = config.settings.defaultLanguage;
     return redirect(`/${DEFAULT_LANG}`);
